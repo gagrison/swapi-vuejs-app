@@ -9,7 +9,7 @@ export default {
   fetchPeople (context, page) {
     // If data is already fetched then skip
     if (!context.state.people[page]) {
-      return axios.get(`people?page=${page}`).then((response) => {
+      return axios.get(`people/?page=${page}`).then((response) => {
         // Add id to person object
         const people = response.data.results.map((person) => {
           const id = stripIdFromUrl(person.url);
@@ -36,7 +36,7 @@ export default {
   fetchPlanets (context, page) {
     // If data is already fetched then skip
     if (!context.state.planets[page]) {
-      return axios.get(`planets?page=${page}`).then((response) => {
+      return axios.get(`planets/?page=${page}`).then((response) => {
         // Add id to planet object
         const planets = response.data.results.map((planet) => {
           const id = stripIdFromUrl(planet.url);
@@ -63,7 +63,7 @@ export default {
   fetchSpecies (context, page) {
     // If data is already fetched then skip
     if (!context.state.species[page]) {
-      return axios.get(`species?page=${page}`).then((response) => {
+      return axios.get(`species/?page=${page}`).then((response) => {
         // Add id to specie object
         const species = response.data.results.map((specie) => {
           const id = stripIdFromUrl(specie.url);
@@ -90,7 +90,7 @@ export default {
   fetchStarships (context, page) {
     // If data is already fetched then skip
     if (!context.state.starships[page]) {
-      return axios.get(`starships?page=${page}`).then((response) => {
+      return axios.get(`starships/?page=${page}`).then((response) => {
         // Add id to starship object
         const starships = response.data.results.map((starship) => {
           const id = stripIdFromUrl(starship.url);
@@ -117,7 +117,7 @@ export default {
   fetchVehicles (context, page) {
     // If data is already fetched then skip
     if (!context.state.vehicles[page]) {
-      return axios.get(`vehicles?page=${page}`).then((response) => {
+      return axios.get(`vehicles/?page=${page}`).then((response) => {
         // Add id to vehicle object
         const vehicles = response.data.results.map((vehicle) => {
           const id = stripIdFromUrl(vehicle.url);
@@ -144,7 +144,7 @@ export default {
   fetchFilms (context) {
     // If data is already fetched then skip
     if (!context.state.films.length) {
-      return axios.get('films').then((response) => {
+      return axios.get('films/').then((response) => {
         // Add id to film object
         const films = response.data.results.map((film) => {
           const id = stripIdFromUrl(film.url);
@@ -169,7 +169,7 @@ export default {
   fetchPerson (context, id) {
     // If data is already fetched then skip
     if (!context.state.person[id]) {
-      return axios.get(`people/${id}`).then((response) => {
+      return axios.get(`people/${id}/`).then((response) => {
         // Add id to person object
         const person = { ...response.data, id };
 
@@ -183,7 +183,7 @@ export default {
   fetchPlanet (context, id) {
     // If data is already fetched then skip
     if (!context.state.planet[id]) {
-      return axios.get(`planets/${id}`).then((response) => {
+      return axios.get(`planets/${id}/`).then((response) => {
         // Add id to planet object
         const planet = { ...response.data, id };
 
@@ -197,7 +197,7 @@ export default {
   fetchSpecie (context, id) {
     // If data is already fetched then skip
     if (!context.state.specie[id]) {
-      return axios.get(`species/${id}`).then((response) => {
+      return axios.get(`species/${id}/`).then((response) => {
         // Add id to specie object
         const specie = { ...response.data, id };
 
@@ -211,7 +211,7 @@ export default {
   fetchStarship (context, id) {
     // If data is already fetched then skip
     if (!context.state.starship[id]) {
-      return axios.get(`starships/${id}`).then((response) => {
+      return axios.get(`starships/${id}/`).then((response) => {
         // Add id to starship object
         const starship = { ...response.data, id };
 
@@ -225,7 +225,7 @@ export default {
   fetchVehicle (context, id) {
     // If data is already fetched then skip
     if (!context.state.vehicle[id]) {
-      return axios.get(`vehicles/${id}`).then((response) => {
+      return axios.get(`vehicles/${id}/`).then((response) => {
         // Add id to vehicle object
         const vehicle = { ...response.data, id };
 
@@ -239,7 +239,7 @@ export default {
   fetchFilm (context, id) {
     // If data is already fetched then skip
     if (!context.state.film[id]) {
-      return axios.get(`films/${id}`).then((response) => {
+      return axios.get(`films/${id}/`).then((response) => {
         // Add id to film object
         const film = { ...response.data, id };
 
