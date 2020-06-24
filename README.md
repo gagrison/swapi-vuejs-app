@@ -1,4 +1,4 @@
-# swapi-vuejs-app
+# [The Star Wars API](https://swapi.dev) Vue.js application
 
 ## Project setup
 ```
@@ -7,7 +7,7 @@ npm install
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+npm start
 ```
 
 ### Compiles and minifies for production

@@ -1,23 +1,102 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '../views/Home.vue';
+import People from '@/views/People.vue';
+import Planets from '@/views/Planets.vue';
+import Species from '@/views/Species.vue';
+import Starships from '@/views/Starships.vue';
+import Vehicles from '@/views/Vehicles.vue';
+import Films from '@/views/Films.vue';
+import Person from '@/views/Person.vue';
+import Planet from '@/views/Planet.vue';
+import Specie from '@/views/Specie.vue';
+import Starship from '@/views/Starship.vue';
+import Vehicle from '@/views/Vehicle.vue';
+import Film from '@/views/Film.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
+    redirect: {
+      name: 'People',
+      query: {
+        page: 1
+      }
+    }
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    path: '/people',
+    name: 'People',
+    component: People,
+    props: (route) => ({ page: Number(route.query.page) })
   },
+  {
+    path: '/planets',
+    name: 'Planets',
+    component: Planets,
+    props: (route) => ({ page: Number(route.query.page) })
+  },
+  {
+    path: '/species',
+    name: 'Species',
+    component: Species,
+    props: (route) => ({ page: Number(route.query.page) })
+  },
+  {
+    path: '/starships',
+    name: 'Starships',
+    component: Starships,
+    props: (route) => ({ page: Number(route.query.page) })
+  },
+  {
+    path: '/vehicles',
+    name: 'Vehicles',
+    component: Vehicles,
+    props: (route) => ({ page: Number(route.query.page) })
+  },
+  {
+    path: '/films',
+    name: 'Films',
+    component: Films,
+    props: (route) => ({ page: Number(route.query.page) })
+  },
+  {
+    path: '/person/:id',
+    name: 'Person',
+    component: Person,
+    props: true
+  },
+  {
+    path: '/planet/:id',
+    name: 'Planet',
+    component: Planet,
+    props: true
+  },
+  {
+    path: '/specie/:id',
+    name: 'Specie',
+    component: Specie,
+    props: true
+  },
+  {
+    path: '/starship/:id',
+    name: 'Starship',
+    component: Starship,
+    props: true
+  },
+  {
+    path: '/vehicle/:id',
+    name: 'Vehicle',
+    component: Vehicle,
+    props: true
+  },
+  {
+    path: '/film/:id',
+    name: 'Film',
+    component: Film,
+    props: true
+  }
 ];
 
 const router = new VueRouter({
