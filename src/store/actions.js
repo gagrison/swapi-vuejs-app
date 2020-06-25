@@ -3,19 +3,20 @@ import axios from 'axios';
 import * as types from './mutation-types';
 
 axios.defaults.baseURL = 'https://swapi.dev/api/';
-const stripIdFromUrl = (url) => Number(url.match(/\d+/)[0]);
+
+const addIdsToObjects = (data) => data.map((obj) => {
+  // Strip id from url property and add it to object
+  const id = Number(obj.url.match(/\d+/)[0]);
+
+  return { ...obj, id };
+});
 
 export default {
   fetchPeople (context, page) {
     // If data is already fetched then skip
     if (!context.state.people[page]) {
       return axios.get(`people/?page=${page}`).then((response) => {
-        // Add id to person object
-        const people = response.data.results.map((person) => {
-          const id = stripIdFromUrl(person.url);
-
-          return { ...person, id };
-        });
+        const people = addIdsToObjects(response.data.results);
 
         context.commit({
           type: types.ADD_PEOPLE,
@@ -37,12 +38,7 @@ export default {
     // If data is already fetched then skip
     if (!context.state.planets[page]) {
       return axios.get(`planets/?page=${page}`).then((response) => {
-        // Add id to planet object
-        const planets = response.data.results.map((planet) => {
-          const id = stripIdFromUrl(planet.url);
-
-          return { ...planet, id };
-        });
+        const planets = addIdsToObjects(response.data.results);
 
         context.commit({
           type: types.ADD_PLANETS,
@@ -64,12 +60,7 @@ export default {
     // If data is already fetched then skip
     if (!context.state.species[page]) {
       return axios.get(`species/?page=${page}`).then((response) => {
-        // Add id to specie object
-        const species = response.data.results.map((specie) => {
-          const id = stripIdFromUrl(specie.url);
-
-          return { ...specie, id };
-        });
+        const species = addIdsToObjects(response.data.results);
 
         context.commit({
           type: types.ADD_SPECIES,
@@ -91,12 +82,7 @@ export default {
     // If data is already fetched then skip
     if (!context.state.starships[page]) {
       return axios.get(`starships/?page=${page}`).then((response) => {
-        // Add id to starship object
-        const starships = response.data.results.map((starship) => {
-          const id = stripIdFromUrl(starship.url);
-
-          return { ...starship, id };
-        });
+        const starships = addIdsToObjects(response.data.results);
 
         context.commit({
           type: types.ADD_STARSHIPS,
@@ -118,12 +104,7 @@ export default {
     // If data is already fetched then skip
     if (!context.state.vehicles[page]) {
       return axios.get(`vehicles/?page=${page}`).then((response) => {
-        // Add id to vehicle object
-        const vehicles = response.data.results.map((vehicle) => {
-          const id = stripIdFromUrl(vehicle.url);
-
-          return { ...vehicle, id };
-        });
+        const vehicles = addIdsToObjects(response.data.results);
 
         context.commit({
           type: types.ADD_VEHICLES,
@@ -145,12 +126,7 @@ export default {
     // If data is already fetched then skip
     if (!context.state.films.length) {
       return axios.get('films/').then((response) => {
-        // Add id to film object
-        const films = response.data.results.map((film) => {
-          const id = stripIdFromUrl(film.url);
-
-          return { ...film, id };
-        });
+        const films = addIdsToObjects(response.data.results);
 
         context.commit({
           type: types.ADD_FILMS,
@@ -249,5 +225,15 @@ export default {
         });
       }).catch((error) => error);
     }
+  },
+  fetchSearchData (context, { name, searchValue, searchPage }) {
+    return axios.get(`${name}/?search=${searchValue}&page=${searchPage}`).then((response) => {
+      const results = addIdsToObjects(response.data.results);
+
+      return {
+        results,
+        numberOfPages: Math.ceil((response.data.count / 10) + 0.01) // Added '+ 0.01' for count = 0
+      };
+    }); // Request is caught inside component
   }
 };

@@ -3,18 +3,18 @@
     <div>
       <router-link tag="button"
                    :to="prevPage"
-                   :disabled="page === 1">
+                   :disabled="prevDisabled">
         Prev
       </router-link>
       <router-link tag="button"
                    :to="nextPage"
-                   :disabled="page === numberOfPages">
+                   :disabled="nextDisabled">
         Next
       </router-link>
     </div>
     <p>
-      <span>Page {{page}}</span>
-      <span v-if="numberOfPages">/{{numberOfPages}}</span>
+      <span>Page {{pagesInfo.page}}</span>
+      <span v-if="pagesInfo.numberOfPages">/{{pagesInfo.numberOfPages}}</span>
     </p>
   </footer>
 </template>
@@ -25,14 +25,54 @@ export default {
   props: [
     'name',
     'numberOfPages',
-    'page'
+    'page',
+    'searchValue',
+    'numberOfSearchPages',
+    'searchPage'
   ],
   computed: {
     prevPage () {
-      return `/${this.name}?page=${this.page - 1}`;
+      let prevPage = `/${this.name}`;
+
+      if (this.searchValue) {
+        prevPage += `?search=${this.searchValue}&searchPage=${this.searchPage - 1}&page=${this.page}`;
+      } else {
+        prevPage += `?page=${this.page - 1}`;
+      }
+
+      return prevPage;
     },
     nextPage () {
-      return `/${this.name}?page=${this.page + 1}`;
+      let nextPage = `/${this.name}`;
+
+      if (this.searchValue) {
+        nextPage += `?search=${this.searchValue}&searchPage=${this.searchPage + 1}&page=${this.page}`;
+      } else {
+        nextPage += `?page=${this.page + 1}`;
+      }
+
+      return nextPage;
+    },
+    prevDisabled () {
+      return this.searchValue ? this.searchPage === 1 : this.page === 1;
+    },
+    nextDisabled () {
+      return this.searchValue
+        ? this.searchPage === this.numberOfSearchPages
+        : this.page === this.numberOfPages;
+    },
+    pagesInfo () {
+      if (this.searchValue) {
+        return {
+          page: this.searchPage,
+          numberOfPages: this.numberOfSearchPages
+        };
+      }
+
+      return {
+        page: this.page,
+        numberOfPages: this.numberOfPages
+      };
     }
   }
 };
@@ -44,7 +84,7 @@ footer {
   flex-direction: column;
   align-items: center;
   font-size: 16px;
-  margin-top: 20px;
+  margin-top: auto;
 
   div {
     display: flex;
@@ -63,6 +103,7 @@ footer {
 
       &[disabled] {
         opacity: 0.35;
+        background-color: $star-wars-gray;
         cursor: initial;
       }
     }

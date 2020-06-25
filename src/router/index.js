@@ -29,7 +29,11 @@ const routes = [
     path: '/people',
     name: 'People',
     component: People,
-    props: (route) => ({ page: Number(route.query.page) })
+    props: (route) => ({
+      page: Number(route.query.page),
+      search: route.query.search,
+      searchPage: Number(route.query.searchPage)
+    })
   },
   {
     path: '/planets',
