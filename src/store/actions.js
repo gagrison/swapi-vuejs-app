@@ -233,6 +233,11 @@ export default {
       }).catch((error) => error);
     }
   },
+  fetchMultiple (context, { ids, functionName }) {
+    const promises = ids.map((id) => context.dispatch(`fetch${functionName}`, id));
+
+    return axios.all(promises);
+  },
   fetchSearchData (context, { name, searchValue, searchPage }) {
     return axios.get(`${name}/?search=${searchValue}&page=${searchPage}`).then((response) => {
       const results = addIdsToObjects(response.data.results);

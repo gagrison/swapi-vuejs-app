@@ -19,7 +19,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import axios from 'axios';
 import Loader from '@/components/Loader.vue';
 import ErrorHandler from '@/components/ErrorHandler.vue';
 
@@ -43,12 +42,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchPlanet', 'fetchMultiple']),
+    ...mapActions(['fetchMultiple']),
     fetchData () {
       this.loading = true;
-      axios.all(
-        this.planetsIds.map((id) => this.fetchPlanet(id))
-      ).then((errors) => {
+      this.fetchMultiple({
+        ids: this.planetsIds,
+        functionName: 'Planet'
+      }).then((errors) => {
         this.loading = false;
         this.error = this.transformErrorsToString(errors);
       });

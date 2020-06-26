@@ -19,7 +19,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import axios from 'axios';
 import Loader from '@/components/Loader.vue';
 import ErrorHandler from '@/components/ErrorHandler.vue';
 
@@ -43,12 +42,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchPerson', 'fetchMultiple']),
+    ...mapActions(['fetchMultiple']),
     fetchData () {
       this.loading = true;
-      axios.all(
-        this.peopleIds.map((id) => this.fetchPerson(id))
-      ).then((errors) => {
+      this.fetchMultiple({
+        ids: this.peopleIds,
+        functionName: 'Person'
+      }).then((errors) => {
         this.loading = false;
         this.error = this.transformErrorsToString(errors);
       });

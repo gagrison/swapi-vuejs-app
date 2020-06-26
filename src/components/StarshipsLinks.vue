@@ -19,7 +19,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import axios from 'axios';
 import Loader from '@/components/Loader.vue';
 import ErrorHandler from '@/components/ErrorHandler.vue';
 
@@ -43,12 +42,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchStarship', 'fetchMultiple']),
+    ...mapActions(['fetchMultiple']),
     fetchData () {
       this.loading = true;
-      axios.all(
-        this.starshipsIds.map((id) => this.fetchStarship(id))
-      ).then((errors) => {
+      this.fetchMultiple({
+        ids: this.starshipsIds,
+        functionName: 'Starship'
+      }).then((errors) => {
         this.loading = false;
         this.error = this.transformErrorsToString(errors);
       });

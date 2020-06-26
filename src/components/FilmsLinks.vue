@@ -11,7 +11,7 @@
       <router-link v-for="id in filmsIds"
                    :key="id"
                    :to="{name: 'Film', params: { id }}">
-        {{getFilm(id).title  | capitalize}}
+        {{getFilm(id).title | capitalize}}
       </router-link>
     </div>
   </section>
@@ -19,7 +19,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import axios from 'axios';
 import Loader from '@/components/Loader.vue';
 import ErrorHandler from '@/components/ErrorHandler.vue';
 
@@ -43,12 +42,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchFilm', 'fetchMultiple']),
+    ...mapActions(['fetchMultiple']),
     fetchData () {
       this.loading = true;
-      axios.all(
-        this.filmsIds.map((id) => this.fetchFilm(id))
-      ).then((errors) => {
+      this.fetchMultiple({
+        ids: this.filmsIds,
+        functionName: 'Film'
+      }).then((errors) => {
         this.loading = false;
         this.error = this.transformErrorsToString(errors);
       });
