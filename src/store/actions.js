@@ -11,16 +11,19 @@ const addIdsToObjects = (data) => data.map((obj) => {
   return { ...obj, id };
 });
 
+const getNumberOfPages = (count) => Math.ceil(count / 10);
+
 export default {
   fetchPeople (context, page) {
     // If data is already fetched then skip
     if (!context.state.people[page]) {
       return axios.get(`people/?page=${page}`).then((response) => {
         const people = addIdsToObjects(response.data.results);
+        const numberOfPages = getNumberOfPages(response.data.count);
 
         context.commit({
           type: types.ADD_PEOPLE,
-          numberOfPages: Math.ceil(response.data.count / 10),
+          numberOfPages,
           people,
           page
         });
@@ -39,10 +42,11 @@ export default {
     if (!context.state.planets[page]) {
       return axios.get(`planets/?page=${page}`).then((response) => {
         const planets = addIdsToObjects(response.data.results);
+        const numberOfPages = getNumberOfPages(response.data.count);
 
         context.commit({
           type: types.ADD_PLANETS,
-          numberOfPages: Math.ceil(response.data.count / 10),
+          numberOfPages,
           planets,
           page
         });
@@ -61,10 +65,11 @@ export default {
     if (!context.state.species[page]) {
       return axios.get(`species/?page=${page}`).then((response) => {
         const species = addIdsToObjects(response.data.results);
+        const numberOfPages = getNumberOfPages(response.data.count);
 
         context.commit({
           type: types.ADD_SPECIES,
-          numberOfPages: Math.ceil(response.data.count / 10),
+          numberOfPages,
           species,
           page
         });
@@ -83,10 +88,11 @@ export default {
     if (!context.state.starships[page]) {
       return axios.get(`starships/?page=${page}`).then((response) => {
         const starships = addIdsToObjects(response.data.results);
+        const numberOfPages = getNumberOfPages(response.data.count);
 
         context.commit({
           type: types.ADD_STARSHIPS,
-          numberOfPages: Math.ceil(response.data.count / 10),
+          numberOfPages,
           starships,
           page
         });
@@ -105,10 +111,11 @@ export default {
     if (!context.state.vehicles[page]) {
       return axios.get(`vehicles/?page=${page}`).then((response) => {
         const vehicles = addIdsToObjects(response.data.results);
+        const numberOfPages = getNumberOfPages(response.data.count);
 
         context.commit({
           type: types.ADD_VEHICLES,
-          numberOfPages: Math.ceil(response.data.count / 10),
+          numberOfPages,
           vehicles,
           page
         });
@@ -229,10 +236,11 @@ export default {
   fetchSearchData (context, { name, searchValue, searchPage }) {
     return axios.get(`${name}/?search=${searchValue}&page=${searchPage}`).then((response) => {
       const results = addIdsToObjects(response.data.results);
+      const numberOfPages = getNumberOfPages(response.data.count);
 
       return {
         results,
-        numberOfPages: Math.ceil(response.data.count / 10)
+        numberOfPages
       };
     }); // Request is caught inside component
   }

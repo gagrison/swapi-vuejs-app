@@ -2,30 +2,24 @@
   <main>
     <Search @search="onSearch"
             :value="search"
-            placeholder="Search by name"/>
+            placeholder="Search by name">
+    </Search>
     <Loader v-if="loading"/>
     <ErrorHandler v-else-if="error"
                   :err="error">
     </ErrorHandler>
-    <article v-else-if="searchResponseData">
-      <LinkItem v-for="specie in searchResponseData"
-                :key="specie.id"
-                routeName="specie"
-                :id="specie.id"
-                :title="specie.name"
-                :subtitle="specie.classification">
-      </LinkItem>
-      <NoResults v-if="!searchResponseData.length"/>
-    </article>
-    <article v-else>
-      <LinkItem v-for="specie in currentPageSpecies(page)"
-                :key="specie.id"
-                routeName="specie"
-                :id="specie.id"
-                :title="specie.name"
-                :subtitle="specie.classification">
-      </LinkItem>
-    </article>
+    <LinkItems v-else-if="searchResponseData"
+               :items="searchResponseData"
+               routeName="specie"
+               titleProperty="name"
+               subtitleProperty="classification">
+    </LinkItems>
+    <LinkItems v-else
+               :items="currentPageSpecies(page)"
+               routeName="person"
+               titleProperty="name"
+               subtitleProperty="classification">
+    </LinkItems>
     <Pagination v-if="!loading"
                 name="species"
                 :numberOfPages="numberOfSpeciesPages"
@@ -39,12 +33,11 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import LinkItem from '@/components/LinkItem.vue';
+import LinkItems from '@/components/LinkItems.vue';
 import Pagination from '@/components/Pagination.vue';
 import Loader from '@/components/Loader.vue';
 import ErrorHandler from '@/components/ErrorHandler.vue';
 import Search from '@/components/Search.vue';
-import NoResults from '@/components/NoResults.vue';
 
 export default {
   name: 'Species',
@@ -62,12 +55,11 @@ export default {
     'searchPage'
   ],
   components: {
-    LinkItem,
+    LinkItems,
     Pagination,
     Loader,
     ErrorHandler,
-    Search,
-    NoResults
+    Search
   },
   computed: {
     ...mapGetters(['currentPageSpecies', 'numberOfSpeciesPages']),

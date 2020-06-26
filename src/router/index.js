@@ -64,8 +64,7 @@ const routes = [
   {
     path: '/films',
     name: 'Films',
-    component: Films,
-    props: (route) => ({ page: Number(route.query.page) })
+    component: Films
   },
   {
     path: '/person/:id',

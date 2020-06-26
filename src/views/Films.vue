@@ -4,21 +4,18 @@
     <ErrorHandler v-else-if="error"
                   :err="error">
     </ErrorHandler>
-    <article v-else>
-      <LinkItem v-for="film in films"
-                :key="film.id"
-                routeName="film"
-                :id="film.id"
-                :title="film.title"
-                :subtitle="film.release_date">
-      </LinkItem>
-    </article>
+    <LinkItems v-else
+               :items="films"
+               routeName="film"
+               titleProperty="title"
+               subtitleProperty="release_date">
+    </LinkItems>
   </main>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import LinkItem from '@/components/LinkItem.vue';
+import LinkItems from '@/components/LinkItems.vue';
 import Loader from '@/components/Loader.vue';
 import ErrorHandler from '@/components/ErrorHandler.vue';
 
@@ -32,7 +29,7 @@ export default {
   },
   props: ['page'],
   components: {
-    LinkItem,
+    LinkItems,
     Loader,
     ErrorHandler
   },

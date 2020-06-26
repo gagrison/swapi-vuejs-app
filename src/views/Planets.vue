@@ -2,30 +2,24 @@
   <main>
     <Search @search="onSearch"
             :value="search"
-            placeholder="Search by name"/>
+            placeholder="Search by name">
+    </Search>
     <Loader v-if="loading"/>
     <ErrorHandler v-else-if="error"
                   :err="error">
     </ErrorHandler>
-    <article v-else-if="searchResponseData">
-      <LinkItem v-for="planet in searchResponseData"
-                :key="planet.id"
-                routeName="planet"
-                :id="planet.id"
-                :title="planet.name"
-                :subtitle="planet.terrain">
-      </LinkItem>
-      <NoResults v-if="!searchResponseData.length"/>
-    </article>
-    <article v-else>
-      <LinkItem v-for="planet in currentPagePlanets(page)"
-                :key="planet.id"
-                routeName="planet"
-                :id="planet.id"
-                :title="planet.name"
-                :subtitle="planet.terrain">
-      </LinkItem>
-    </article>
+    <LinkItems v-else-if="searchResponseData"
+               :items="searchResponseData"
+               routeName="planet"
+               titleProperty="name"
+               subtitleProperty="terrain">
+    </LinkItems>
+    <LinkItems v-else
+               :items="currentPagePlanets(page)"
+               routeName="planet"
+               titleProperty="name"
+               subtitleProperty="terrain">
+    </LinkItems>
     <Pagination v-if="!loading"
                 name="planets"
                 :numberOfPages="numberOfPlanetsPages"
@@ -39,12 +33,11 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import LinkItem from '@/components/LinkItem.vue';
+import LinkItems from '@/components/LinkItems.vue';
 import Pagination from '@/components/Pagination.vue';
 import Loader from '@/components/Loader.vue';
 import ErrorHandler from '@/components/ErrorHandler.vue';
 import Search from '@/components/Search.vue';
-import NoResults from '@/components/NoResults.vue';
 
 export default {
   name: 'Planets',
@@ -62,12 +55,11 @@ export default {
     'searchPage'
   ],
   components: {
-    LinkItem,
+    LinkItems,
     Pagination,
     Loader,
     ErrorHandler,
-    Search,
-    NoResults
+    Search
   },
   computed: {
     ...mapGetters(['currentPagePlanets', 'numberOfPlanetsPages']),

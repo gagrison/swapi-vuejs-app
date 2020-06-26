@@ -2,30 +2,24 @@
   <main>
     <Search @search="onSearch"
             :value="search"
-            placeholder="Search by name"/>
+            placeholder="Search by name">
+    </Search>
     <Loader v-if="loading"/>
     <ErrorHandler v-else-if="error"
                   :err="error">
     </ErrorHandler>
-    <article v-else-if="searchResponseData">
-      <LinkItem v-for="person in searchResponseData"
-                :key="person.id"
-                routeName="person"
-                :id="person.id"
-                :title="person.name"
-                :subtitle="person.birth_year">
-      </LinkItem>
-      <NoResults v-if="!searchResponseData.length"/>
-    </article>
-    <article v-else>
-      <LinkItem v-for="person in currentPagePeople(page)"
-                :key="person.id"
-                routeName="person"
-                :id="person.id"
-                :title="person.name"
-                :subtitle="person.birth_year">
-      </LinkItem>
-    </article>
+    <LinkItems v-else-if="searchResponseData"
+               :items="searchResponseData"
+               routeName="person"
+               titleProperty="name"
+               subtitleProperty="birth_year">
+    </LinkItems>
+    <LinkItems v-else
+               :items="currentPagePeople(page)"
+               routeName="person"
+               titleProperty="name"
+               subtitleProperty="birth_year">
+    </LinkItems>
     <Pagination v-if="!loading"
                 name="people"
                 :numberOfPages="numberOfPeoplePages"
@@ -39,12 +33,11 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import LinkItem from '@/components/LinkItem.vue';
+import LinkItems from '@/components/LinkItems.vue';
 import Pagination from '@/components/Pagination.vue';
 import Loader from '@/components/Loader.vue';
 import ErrorHandler from '@/components/ErrorHandler.vue';
 import Search from '@/components/Search.vue';
-import NoResults from '@/components/NoResults.vue';
 
 export default {
   name: 'People',
@@ -62,12 +55,11 @@ export default {
     'searchPage'
   ],
   components: {
-    LinkItem,
+    LinkItems,
     Pagination,
     Loader,
     ErrorHandler,
-    Search,
-    NoResults
+    Search
   },
   computed: {
     ...mapGetters(['currentPagePeople', 'numberOfPeoplePages']),

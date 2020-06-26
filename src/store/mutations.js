@@ -40,21 +40,39 @@ export default {
     state.films = [...payload.films];
   },
   [types.ADD_PERSON] (state, payload) {
-    state.person = { ...state.person, [payload.person.id]: payload.person };
+    state.person = {
+      ...state.person,
+      [payload.person.id]: payload.person
+    };
   },
   [types.ADD_PLANET] (state, payload) {
-    state.planet = { ...state.planet, [payload.planet.id]: payload.planet };
+    state.planet = {
+      ...state.planet,
+      [payload.planet.id]: payload.planet
+    };
   },
   [types.ADD_SPECIE] (state, payload) {
-    state.specie = { ...state.specie, [payload.specie.id]: payload.specie };
+    state.specie = {
+      ...state.specie,
+      [payload.specie.id]: payload.specie
+    };
   },
   [types.ADD_STARSHIP] (state, payload) {
-    state.starship = { ...state.starship, [payload.starship.id]: payload.starship };
+    state.starship = {
+      ...state.starship,
+      [payload.starship.id]: payload.starship
+    };
   },
   [types.ADD_VEHICLE] (state, payload) {
-    state.vehicle = { ...state.vehicle, [payload.vehicle.id]: payload.vehicle };
+    state.vehicle = {
+      ...state.vehicle,
+      [payload.vehicle.id]: payload.vehicle
+    };
   },
   [types.ADD_FILM] (state, payload) {
-    state.film = { ...state.film, [payload.film.id]: payload.film };
+    state.film = {
+      ...state.film,
+      [payload.film.id]: payload.film
+    };
   }
 };

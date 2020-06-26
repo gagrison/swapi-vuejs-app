@@ -2,30 +2,24 @@
   <main>
     <Search @search="onSearch"
             :value="search"
-            placeholder="Search by name or model"/>
+            placeholder="Search by name or model">
+    </Search>
     <Loader v-if="loading"/>
     <ErrorHandler v-else-if="error"
                   :err="error">
     </ErrorHandler>
-    <article v-else-if="searchResponseData">
-      <LinkItem v-for="vehicle in searchResponseData"
-                :key="vehicle.id"
-                routeName="vehicle"
-                :id="vehicle.id"
-                :title="vehicle.name"
-                :subtitle="vehicle.model">
-      </LinkItem>
-      <NoResults v-if="!searchResponseData.length"/>
-    </article>
-    <article v-else>
-      <LinkItem v-for="vehicle in currentPageVehicles(page)"
-                :key="vehicle.id"
-                routeName="vehicle"
-                :id="vehicle.id"
-                :title="vehicle.name"
-                :subtitle="vehicle.model">
-      </LinkItem>
-    </article>
+    <LinkItems v-else-if="searchResponseData"
+               :items="searchResponseData"
+               routeName="vehicle"
+               titleProperty="name"
+               subtitleProperty="model">
+    </LinkItems>
+    <LinkItems v-else
+               :items="currentPageVehicles(page)"
+               routeName="vehicle"
+               titleProperty="name"
+               subtitleProperty="model">
+    </LinkItems>
     <Pagination v-if="!loading"
                 name="vehicles"
                 :numberOfPages="numberOfVehiclesPages"
@@ -39,12 +33,11 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import LinkItem from '@/components/LinkItem.vue';
+import LinkItems from '@/components/LinkItems.vue';
 import Pagination from '@/components/Pagination.vue';
 import Loader from '@/components/Loader.vue';
 import ErrorHandler from '@/components/ErrorHandler.vue';
 import Search from '@/components/Search.vue';
-import NoResults from '@/components/NoResults.vue';
 
 export default {
   name: 'Vehicles',
@@ -62,12 +55,11 @@ export default {
     'searchPage'
   ],
   components: {
-    LinkItem,
+    LinkItems,
     Pagination,
     Loader,
     ErrorHandler,
-    Search,
-    NoResults
+    Search
   },
   computed: {
     ...mapGetters(['currentPageVehicles', 'numberOfVehiclesPages']),
