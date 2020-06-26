@@ -15,6 +15,12 @@ import Film from '@/views/Film.vue';
 
 Vue.use(VueRouter);
 
+const props = (route) => ({
+  page: Number(route.query.page),
+  search: route.query.search,
+  searchPage: Number(route.query.searchPage)
+});
+
 const routes = [
   {
     path: '/',
@@ -29,35 +35,31 @@ const routes = [
     path: '/people',
     name: 'People',
     component: People,
-    props: (route) => ({
-      page: Number(route.query.page),
-      search: route.query.search,
-      searchPage: Number(route.query.searchPage)
-    })
+    props
   },
   {
     path: '/planets',
     name: 'Planets',
     component: Planets,
-    props: (route) => ({ page: Number(route.query.page) })
+    props
   },
   {
     path: '/species',
     name: 'Species',
     component: Species,
-    props: (route) => ({ page: Number(route.query.page) })
+    props
   },
   {
     path: '/starships',
     name: 'Starships',
     component: Starships,
-    props: (route) => ({ page: Number(route.query.page) })
+    props
   },
   {
     path: '/vehicles',
     name: 'Vehicles',
     component: Vehicles,
-    props: (route) => ({ page: Number(route.query.page) })
+    props
   },
   {
     path: '/films',

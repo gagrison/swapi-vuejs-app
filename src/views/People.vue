@@ -15,7 +15,7 @@
                 :title="person.name"
                 :subtitle="person.birth_year">
       </LinkItem>
-      <NoData v-if="!searchResponseData.length"/>
+      <NoResults v-if="!searchResponseData.length"/>
     </article>
     <article v-else>
       <LinkItem v-for="person in currentPagePeople(page)"
@@ -44,7 +44,7 @@ import Pagination from '@/components/Pagination.vue';
 import Loader from '@/components/Loader.vue';
 import ErrorHandler from '@/components/ErrorHandler.vue';
 import Search from '@/components/Search.vue';
-import NoData from '@/components/NoData.vue';
+import NoResults from '@/components/NoResults.vue';
 
 export default {
   name: 'People',
@@ -67,10 +67,13 @@ export default {
     Loader,
     ErrorHandler,
     Search,
-    NoData
+    NoResults
   },
   computed: {
-    ...mapGetters(['currentPagePeople', 'numberOfPeoplePages'])
+    ...mapGetters(['currentPagePeople', 'numberOfPeoplePages']),
+    computedSearch () {
+      return this.search + this.searchPage;
+    }
   },
   methods: {
     ...mapActions(['fetchPeople', 'fetchSearchData']),
@@ -90,7 +93,9 @@ export default {
     },
     fetchSearch () {
       if (this.search) {
+        this.error = null;
         this.loading = true;
+
         this.fetchSearchData({
           name: 'people',
           searchValue: this.search,
@@ -118,8 +123,7 @@ export default {
   },
   watch: {
     '$route.query.page': 'fetchData',
-    '$route.query.search': 'fetchSearch',
-    '$route.query.searchPage': 'fetchSearch'
+    computedSearch: 'fetchSearch'
   }
 };
 </script>

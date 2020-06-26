@@ -1,17 +1,17 @@
 <template>
-  <p class="noData">
-    There is no data
+  <p class="noResults">
+    No results found
   </p>
 </template>
 
 <script>
 export default {
-  name: 'NoData'
+  name: 'NoResults'
 };
 </script>
 
 <style lang="scss">
-.noData {
+.noResults {
   padding-left: 5px;
   font-size: 20px;
 }

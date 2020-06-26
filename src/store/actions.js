@@ -232,7 +232,7 @@ export default {
 
       return {
         results,
-        numberOfPages: Math.ceil((response.data.count / 10) + 0.01) // Added '+ 0.01' for count = 0
+        numberOfPages: Math.ceil(response.data.count / 10)
       };
     }); // Request is caught inside component
   }

@@ -58,7 +58,7 @@ export default {
     },
     nextDisabled () {
       return this.searchValue
-        ? this.searchPage === this.numberOfSearchPages
+        ? this.searchPage === this.numberOfSearchPages || !this.numberOfSearchPages
         : this.page === this.numberOfPages;
     },
     pagesInfo () {
