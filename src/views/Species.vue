@@ -16,7 +16,7 @@
     </LinkItems>
     <LinkItems v-else
                :items="currentPageSpecies(page)"
-               routeName="person"
+               routeName="specie"
                titleProperty="name"
                subtitleProperty="classification">
     </LinkItems>
