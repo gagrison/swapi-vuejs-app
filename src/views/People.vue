@@ -8,14 +8,8 @@
     <ErrorHandler v-else-if="error"
                   :err="error">
     </ErrorHandler>
-    <LinkItems v-else-if="searchResponseData"
-               :items="searchResponseData"
-               routeName="person"
-               titleProperty="name"
-               subtitleProperty="birth_year">
-    </LinkItems>
     <LinkItems v-else
-               :items="currentPagePeople(page)"
+               :items="searchResponseData || currentPagePeople(page)"
                routeName="person"
                titleProperty="name"
                subtitleProperty="birth_year">
@@ -78,7 +72,7 @@ export default {
     },
     onSearch (value) {
       if (value) {
-        this.$router.replace(`people?search=${value}&searchPage=${1}&page=${this.page}`);
+        this.$router.replace(`people?search=${value}&searchPage=1&page=${this.page}`);
       } else {
         this.$router.replace(`people?page=${this.page}`);
       }
