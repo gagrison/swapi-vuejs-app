@@ -2,11 +2,11 @@
 import axios from 'axios';
 import * as types from './mutation-types';
 
-axios.defaults.baseURL = 'https://swapi.dev/api/';
+axios.defaults.baseURL = 'https://swapi.py4e.com/api/';
 
 const addIdsToObjects = (data) => data.map((obj) => {
   // Strip id from url property and add it to object
-  const id = Number(obj.url.match(/\d+/)[0]);
+  const id = Number(obj.url.match(/(?<=\/)\d+/)[0]);
 
   return { ...obj, id };
 });

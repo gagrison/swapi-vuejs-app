@@ -9,6 +9,6 @@ Vue.mixin({
 
       return errorString;
     }, ''),
-    stripIdFromUrl: (url) => Number(url.match(/\d+/)[0])
+    stripIdFromUrl: (url) => Number(url.match(/(?<=\/)\d+/)[0])
   }
 });
